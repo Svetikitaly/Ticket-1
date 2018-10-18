@@ -1,3 +1,5 @@
+var sha256 = require('js-sha256');
+
 function C(username, email, password, iter_count) {
     this.getUsername = () =>  username;
     this.getEmail = () =>  email ;
@@ -13,5 +15,4 @@ function C(username, email, password, iter_count) {
   };
 }
 
-var c = new C('sveta', 'svettikomsk', '18121987m', 7);
-console.log( c.getHashPassword () );
+module.exports = C;
