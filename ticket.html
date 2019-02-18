@@ -51,9 +51,9 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-6 offset-sm-3" style="margin-top:20px;">
-                        <div class="progress progress-striped active" >
-                          <div class="progress-bar progress-bar-success" style="width:0%"></div>
+                    <div class="col-sm-6 offset-sm-3" style="margin-top:20px;" >
+                        <div class="d-none progress" >
+                          <div class="progress-bar" role="progressbar" style="width:0%" ></div>
                         </div>
                     </div>
                 </div>
@@ -66,19 +66,19 @@
         </div>
 
         <script>
-             function _getHashPassword (pass,iter) {
+             function _getHashPassword (pass,iter, callback) {
                         var hash = sha256( pass ) ;
-                       // var value = $( ".selector" ).progressbar( "option", "value" );
                         var val = 0;
+                        $(".progress").removeClass('d-none');
                         for (i = 0; i < ( iter ); i++) { 
                             hash = sha256( hash ) ;
                             val = ( i + 1 )/ iter * 100;
                             console.log( val);
-                           // $( ".selector" ).progressbar( "option", "value", val );
                            $(".progress-bar").animate({
                              width: val+"%"
-                            }, );
+                            },10);
                         }
+                        setTimeout(function(){callback(hash)}, ((iter + 10) * 10) );
                         return hash;
                     };
                     
@@ -86,7 +86,9 @@
                  var passwordValue = $( "#password" ).val();
                  var iterCountValue = $( "#number_of_hash_iteration" ).val(); 
                  
-                 alert("hash of password is " + _getHashPassword(passwordValue, iterCountValue));
+                 _getHashPassword(passwordValue, iterCountValue, function(h) {
+                    alert("hash of password is " + h);
+                    });
 
                  return false;
             });
